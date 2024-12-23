@@ -60,12 +60,18 @@ public class GradeViewer extends JFrame {
             String number = String.valueOf(i);
             JButton button = new JButton(number);
             button.setFont(new Font("Malgun Gothic", Font.BOLD, 24));
+            button.setBackground(Color.WHITE);
+            button.setOpaque(true);
+            button.setBorderPainted(false);
             button.addActionListener(e -> inputField.setText(inputField.getText() + number));
             buttonPanel.add(button);
         }
 
         JButton backspaceButton = new JButton("←");
         backspaceButton.setFont(new Font("Malgun Gothic", Font.BOLD, 24));
+        backspaceButton.setBackground(Color.WHITE);
+        backspaceButton.setOpaque(true);
+        backspaceButton.setBorderPainted(false);
         backspaceButton.addActionListener(e -> {
             String text = inputField.getText();
             if (text.length() > 0) {
@@ -76,6 +82,9 @@ public class GradeViewer extends JFrame {
 
         JButton confirmButton = new JButton("확인");
         confirmButton.setFont(new Font("Malgun Gothic", Font.BOLD, 24));
+        confirmButton.setBackground(Color.WHITE);
+        confirmButton.setOpaque(true);
+        confirmButton.setBorderPainted(false);
         confirmButton.addActionListener(e -> displayGrade(inputField.getText()));
         buttonPanel.add(confirmButton);
 
