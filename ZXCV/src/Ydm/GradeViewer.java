@@ -41,16 +41,19 @@ public class GradeViewer extends JFrame {
         setLayout(new BorderLayout());
 
         JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(4, 3));
+        buttonPanel.setLayout(new GridLayout(4, 3, 5, 5));
 
         inputField = new JTextField();
         inputField.setEditable(false);
         inputField.setFont(new Font("Arial", Font.PLAIN, 24));
+        inputField.setHorizontalAlignment(JTextField.CENTER);
         add(inputField, BorderLayout.NORTH);
 
         resultArea = new JTextArea();
         resultArea.setEditable(false);
         resultArea.setFont(new Font("Arial", Font.PLAIN, 16));
+        resultArea.setLineWrap(true);
+        resultArea.setWrapStyleWord(true);
         add(new JScrollPane(resultArea), BorderLayout.CENTER);
 
         for (int i = 0; i <= 9; i++) {
@@ -61,15 +64,20 @@ public class GradeViewer extends JFrame {
             buttonPanel.add(button);
         }
 
-        JButton searchButton = new JButton("Search");
-        searchButton.setFont(new Font("Arial", Font.BOLD, 20));
-        searchButton.addActionListener(e -> displayGrade(inputField.getText()));
-        buttonPanel.add(searchButton);
+        JButton backspaceButton = new JButton("←");
+        backspaceButton.setFont(new Font("Arial", Font.BOLD, 20));
+        backspaceButton.addActionListener(e -> {
+            String text = inputField.getText();
+            if (text.length() > 0) {
+                inputField.setText(text.substring(0, text.length() - 1));
+            }
+        });
+        buttonPanel.add(backspaceButton);
 
-        JButton clearButton = new JButton("Clear");
-        clearButton.setFont(new Font("Arial", Font.BOLD, 20));
-        clearButton.addActionListener(e -> inputField.setText(""));
-        buttonPanel.add(clearButton);
+        JButton enterButton = new JButton("입력");
+        enterButton.setFont(new Font("Arial", Font.BOLD, 20));
+        enterButton.addActionListener(e -> displayGrade(inputField.getText()));
+        buttonPanel.add(enterButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
 
