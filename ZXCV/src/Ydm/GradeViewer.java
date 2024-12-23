@@ -8,7 +8,7 @@ import java.awt.event.*;
 
 public class GradeViewer extends JFrame {
 
-    private Map<String, String> gradeMap;
+    private Map<String, String[]> gradeMap;
     private JTextField inputField;
     private JTextArea resultArea;
 
@@ -22,9 +22,9 @@ public class GradeViewer extends JFrame {
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = br.readLine()) != null) {
-                String[] parts = line.split(","); // 파일 형식: 학번,성적
-                if (parts.length == 2) {
-                    gradeMap.put(parts[0].trim(), parts[1].trim());
+                String[] parts = line.split(","); // 파일 형식: 학번,과목명,이름,점수,성취도
+                if (parts.length == 5) {
+                    gradeMap.put(parts[0].trim(), new String[]{parts[1].trim(), parts[2].trim(), parts[3].trim(), parts[4].trim()});
                 }
             }
         } catch (FileNotFoundException e) {
@@ -86,7 +86,14 @@ public class GradeViewer extends JFrame {
 
     public void displayGrade(String studentId) {
         if (gradeMap.containsKey(studentId)) {
-            resultArea.setText("학번: " + studentId + "의 성적은 " + gradeMap.get(studentId) + "입니다.");
+            String[] data = gradeMap.get(studentId);
+            resultArea.setText(
+                "과목명: " + data[0] + "\n" +
+                "학번: " + studentId + "\n" +
+                "이름: " + data[1] + "\n" +
+                "점수: " + data[2] + "\n" +
+                "성취도: " + data[3]
+            );
         } else {
             resultArea.setText("해당 학번의 성적 정보를 찾을 수 없습니다.");
         }
