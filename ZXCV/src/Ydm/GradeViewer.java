@@ -36,36 +36,36 @@ public class GradeViewer extends JFrame {
 
     private void initializeGUI() {
         setTitle("청주대 성적조회 시스템");
-        setSize(400, 600);
+        setSize(700, 500);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setLayout(new BorderLayout());
-
-        JPanel buttonPanel = new JPanel();
-        buttonPanel.setLayout(new GridLayout(4, 3, 5, 5));
+        setLayout(new BorderLayout(10, 10));
 
         inputField = new JTextField();
         inputField.setEditable(false);
-        inputField.setFont(new Font("Arial", Font.PLAIN, 24));
+        inputField.setFont(new Font("Arial", Font.PLAIN, 28));
         inputField.setHorizontalAlignment(JTextField.CENTER);
         add(inputField, BorderLayout.NORTH);
 
         resultArea = new JTextArea();
         resultArea.setEditable(false);
-        resultArea.setFont(new Font("Arial", Font.PLAIN, 16));
+        resultArea.setFont(new Font("Arial", Font.PLAIN, 18));
         resultArea.setLineWrap(true);
         resultArea.setWrapStyleWord(true);
         add(new JScrollPane(resultArea), BorderLayout.CENTER);
 
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.setLayout(new GridLayout(4, 3, 10, 10));
+
         for (int i = 0; i <= 9; i++) {
             String number = String.valueOf(i);
             JButton button = new JButton(number);
-            button.setFont(new Font("Arial", Font.BOLD, 20));
+            button.setFont(new Font("Arial", Font.BOLD, 24));
             button.addActionListener(e -> inputField.setText(inputField.getText() + number));
             buttonPanel.add(button);
         }
 
         JButton backspaceButton = new JButton("←");
-        backspaceButton.setFont(new Font("Arial", Font.BOLD, 20));
+        backspaceButton.setFont(new Font("Arial", Font.BOLD, 24));
         backspaceButton.addActionListener(e -> {
             String text = inputField.getText();
             if (text.length() > 0) {
@@ -74,10 +74,10 @@ public class GradeViewer extends JFrame {
         });
         buttonPanel.add(backspaceButton);
 
-        JButton enterButton = new JButton("입력");
-        enterButton.setFont(new Font("Arial", Font.BOLD, 20));
-        enterButton.addActionListener(e -> displayGrade(inputField.getText()));
-        buttonPanel.add(enterButton);
+        JButton confirmButton = new JButton("확인");
+        confirmButton.setFont(new Font("Arial", Font.BOLD, 24));
+        confirmButton.addActionListener(e -> displayGrade(inputField.getText()));
+        buttonPanel.add(confirmButton);
 
         add(buttonPanel, BorderLayout.SOUTH);
 
@@ -96,3 +96,4 @@ public class GradeViewer extends JFrame {
         SwingUtilities.invokeLater(() -> new GradeViewer("grades.txt"));
     }
 }
+
