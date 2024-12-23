@@ -4,12 +4,15 @@ import java.io.*;
 import java.util.*;
 
 public class GradeViewer {
-    public static void main(String[] args) {
-        // 학번과 성적 데이터를 저장할 맵
-        Map<String, String> gradeMap = new HashMap<>();
 
-        // 파일에서 데이터 읽기
-        String fileName = "grades.txt";
+    private Map<String, String> gradeMap;
+
+    public GradeViewer(String fileName) {
+        gradeMap = new HashMap<>();
+        loadGrades(fileName);
+    }
+
+    private void loadGrades(String fileName) {
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
             while ((line = br.readLine()) != null) {
@@ -20,25 +23,20 @@ public class GradeViewer {
             }
         } catch (FileNotFoundException e) {
             System.out.println("성적 파일을 찾을 수 없습니다. 파일명을 확인해주세요.");
-            return;
         } catch (IOException e) {
             System.out.println("파일을 읽는 도중 오류가 발생했습니다.");
-            return;
         }
+    }
 
-        // 사용자 입력 처리
-        Scanner scanner = new Scanner(System.in);
-        System.out.print("학번을 입력하세요: ");
-        String studentId = scanner.nextLine().trim();
-
-        // 성적 조회
+    public void displayGrade(String studentId) {
         if (gradeMap.containsKey(studentId)) {
             System.out.println("학번: " + studentId + "의 성적은 " + gradeMap.get(studentId) + "입니다.");
         } else {
             System.out.println("해당 학번의 성적 정보를 찾을 수 없습니다.");
         }
+    }
 
-        // 모든 성적을 리스트로 정렬하여 출력 (컬렉션 활용)
+    public void displayAllGrades() {
         List<String> sortedIds = new ArrayList<>(gradeMap.keySet());
         Collections.sort(sortedIds);
 
@@ -46,6 +44,17 @@ public class GradeViewer {
         for (String id : sortedIds) {
             System.out.println("학번: " + id + ", 성적: " + gradeMap.get(id));
         }
+    }
+
+    public static void main(String[] args) {
+        GradeViewer gradeViewer = new GradeViewer("grades.txt"); //텍스트 파일 추가 예정
+
+        Scanner scanner = new Scanner(System.in);
+        System.out.print("학번을 입력하세요: ");
+        String studentId = scanner.nextLine().trim();
+
+        gradeViewer.displayGrade(studentId);
+        gradeViewer.displayAllGrades();
 
         scanner.close();
     }
