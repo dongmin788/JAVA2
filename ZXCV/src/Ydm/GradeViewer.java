@@ -1,10 +1,25 @@
 package Ydm;
 
-import java.io.*;
-import java.util.*;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 
 public class GradeViewer extends JFrame {
 
@@ -27,10 +42,8 @@ public class GradeViewer extends JFrame {
                     gradeMap.put(parts[0].trim(), new String[]{parts[1].trim(), parts[2].trim(), parts[3].trim(), parts[4].trim()});
                 }
             }
-        } catch (FileNotFoundException e) {
-            System.out.println("성적 파일을 찾을 수 없습니다. 파일명을 확인해주세요.");
         } catch (IOException e) {
-            System.out.println("파일을 읽는 도중 오류가 발생했습니다.");
+            System.out.println("파일 처리 오류: " + e.getMessage());
         }
     }
 
@@ -94,6 +107,11 @@ public class GradeViewer extends JFrame {
     }
 
     public void displayGrade(String studentId) {
+        if (gradeMap == null || gradeMap.isEmpty()) {
+            resultArea.setText("데이터가 없습니다. 파일을 확인하세요.");
+            return;
+        }
+
         if (gradeMap.containsKey(studentId)) {
             String[] data = gradeMap.get(studentId);
             resultArea.setText(
@@ -103,6 +121,15 @@ public class GradeViewer extends JFrame {
                 "점수: " + data[2] + "\n" +
                 "성취도: " + data[3]
             );
+
+            // 추가 컬렉션 사용: 학번 목록 정렬 후 출력
+            List<String> sortedKeys = new ArrayList<>(gradeMap.keySet());
+            Collections.sort(sortedKeys);
+            resultArea.append("\n\n전체 학생 목록:\n");
+            for (String key : sortedKeys) {
+                String[] sortedData = gradeMap.get(key);
+                resultArea.append("학번: " + key + ", 이름: " + sortedData[1] + ", 점수: " + sortedData[2] + "\n");
+            }
         } else {
             resultArea.setText("해당 학번의 성적 정보를 찾을 수 없습니다.");
         }
@@ -112,5 +139,3 @@ public class GradeViewer extends JFrame {
         SwingUtilities.invokeLater(() -> new GradeViewer("grades.txt"));
     }
 }
-
-
