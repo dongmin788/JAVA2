@@ -64,6 +64,7 @@ public class GradeViewer extends JFrame {
      * 
      * @param fileName 데이터를 읽을 파일 이름.
      */
+   //chat GPT 이용
     private void loadGrades(String fileName) {
         try (BufferedReader br = new BufferedReader(new FileReader(fileName))) {
             String line;
@@ -103,6 +104,7 @@ public class GradeViewer extends JFrame {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new GridLayout(4, 3, 10, 10));
 
+        //chat GPT 이용
         for (int i = 0; i <= 9; i++) {
             String number = String.valueOf(i);
             JButton button = new JButton(number);
@@ -146,6 +148,7 @@ public class GradeViewer extends JFrame {
      * 
      * @param studentId 조회할 학번.
      */
+   // Chat GPT 이용
     public void displayGrade(String studentId) {
         if (gradeMap == null || gradeMap.isEmpty()) {
             resultArea.setText("데이터가 없습니다. 파일을 확인하세요.");
